@@ -120,6 +120,10 @@ $ rm file
 1. $ rm file
 2. $ git checkout -- file
 ```
+- 删除文件夹
+```
+$ git rm css/font-awesome-4.7.0 -r -f
+```
 ##### 添加到远程仓库
 1. github创建远程仓库： Repository name和本地file name相同
 2. 把本地仓库的内容推送到GitHub仓库：
@@ -133,9 +137,18 @@ $ git push -u origin master
 ```
 由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
 3. 把本地master分支的最新修改推送至GitHub:
-```
-$ git push origin master
-```
+  - 用命令 git commit告诉Git，把文件提交到仓库:
+  ```
+  git commit -m '说明'
+  ```
+  - 关联到远程库
+  ```
+  git pull --rebase origin master
+  ```
+  - 把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。执行此命令后会要求输入用户名、密码，验证通过后即开始上传
+  ```
+  $ git push -u origin master
+  ```
 ##### 从远程库克隆
 -
 ```
