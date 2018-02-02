@@ -209,6 +209,7 @@ $ git merge --no-ff -m "merge with no-ff" dev
 <img src = "https://cdn.liaoxuefeng.com/cdn/files/attachments/00138490883510324231a837e5d4aee844d3e4692ba50f5000/0">
 禁用 Fast forward，合并意味着创造一个新的提交到master
 <img src = "https://cdn.liaoxuefeng.com/cdn/files/attachments/001384909222841acf964ec9e6a4629a35a7a30588281bb000/0">
+
 ##### Bug分支
 - 每个bug都可以通过一个新的临时分支来修复，修复后，合并分支，然后将临时分支删除
 - 临时出现bug需要修复，但是手头工作还未完成不能提交，所以需要将手头工作暂时封存：
@@ -251,3 +252,61 @@ $ git stash drop
 ```
 $ git stash pop
 ```
+##### feature 分支
+- 每添加一个新功能，最好新建一个feature分支，在上面开发，完成后，合并，最后，删除该feature分支
+- 首先创建分支，添加新功能：
+```
+$ git checkout -b branchName
+```
+- 开发完毕后：
+```
+$ git add filename
+$ git commit -m "add feature vulcan"
+```
+- 切回dev准备合并
+```
+$ git checkout dev
+```
+- feature分支和bug分支是类似的，合并，然后删除
+- 删除分支：
+```
+$ git branch -d feature-vulcan
+```
+##### 多人协作
+- 首先，可以试图用git push origin branch-name推送自己的修改
+```
+$ git checkout -b dev origin/dev
+# 创建远程origin的dev分支到本地
+
+$ git commit -m "add /usr/bin/env"
+# 提交修改
+
+$ git push origin dev
+# 把dev分支push到远程
+```
+- 推送失败，因为你的小伙伴的最新提交和你试图推送的提交有冲突：先用git pull把最新的提交从origin/dev抓下来，然后，在本地合并，解决冲突，再推送：
+```
+$ git branch --set-upstream dev origin/dev
+# 设置dev和origin/dev的链接
+
+$ git pull
+# 用git pull把最新的提交从origin/dev抓下来然后，在本地合并
+
+# 如果有冲突。先合并再提交
+$ git commit -m "..."
+
+$ git push origin dev
+# 解决冲突后提交
+```
+- 小结
+查看远程库信息，使用git remote -v；
+
+本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
