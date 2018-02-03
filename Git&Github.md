@@ -310,3 +310,52 @@ $ git push origin dev
 建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
 
 从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+##### 创建标签
+- 首先，切换到需要打标签的分支上
+```
+$ git checkout master
+```
+- 打标签
+```
+$ git tag <name>
+```
+- 查看所有标签
+```
+$ git tag
+```
+- 给特定commit打标签
+```
+$ git tag v0.9 commit id
+e.x. $ git tag v0.9 6224937
+```
+- 查看之前的commit id
+ ```
+$ git log --pretty=oneline --abbrev-commit
+ ```
+- 创建带有说明的标签，用-a指定标签名，-m指定说明文字
+```
+$ git tag -a tagName -m "Description" commitId
+```
+- 显示一次提交的详细信息：Tagger， date, description etc。
+```
+$ git show <tagname>
+```
+##### 操作标签
+- 推送某个标签到远程:
+```
+$ git push origin <tagname>
+```
+- 推送全部尚未推送到远程的本地标签
+```
+$ git push origin --tags
+```
+- 本地删除标签
+```
+$ git tag -d tagName
+```
+- 远程删除
+```
+$ git tag -d tagName #先删除本地
+$ git push origin :refs/tags/tagName
+```
