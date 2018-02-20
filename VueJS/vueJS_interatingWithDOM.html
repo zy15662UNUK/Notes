@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Vue get started</title>
+    <title>Vue interact with DOM</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -14,15 +14,31 @@
   <body>
     <div id="app">
       <p>{{title}}</p>
+      <p v-once>{{title}}</p>
       <p>{{sayHello()}}</p>
       <p>{{sayHelloWorld()}}</p>
-
+      <a :href="link">google</a>
       <input type="text" v-on:input="changeTitle">
+      <hr>
+      <p v-html="finishLink"></p>
+      <hr>
+      <button type="button" name="button" v-on:click="increase">click</button>
+      <div>
+        {{counter}}
+      </div>
+      <hr>
+      <p v-on:mousemove="mouseCoordinate">coordinates: {{x}},{{y}}      <span v-on:mousemove.stop="">dead zone</span></p>
+      <input type="text" name="" value="" v-on:keyup.enter.space="alertMe">
     </div>
     <script type="text/javascript">
       new Vue({
         el: '#app',
         data: {
+          link: "https://google.com",
+          counter: 0,
+          x: 0,
+          y: 0,
+          finishLink: "<a href='https://www.baidu.com'>baidu</a>",
           title: "hello world"
           <!-- This is the words to be inserted to the <p>{{ title }}</p>-->
         },//all the data needed for this ele
@@ -36,6 +52,17 @@
           },
           sayHelloWorld: function(){
             return this.title;
+          },
+          increase: function(){
+            this.counter++;
+          },
+          mouseCoordinate: function(e) {
+            this.x=e.clientX;
+            this.y=e.clientY;
+            console.log(e);
+          },
+          alertMe: function(){
+            alert("fuck!");
           }
         }
         });
