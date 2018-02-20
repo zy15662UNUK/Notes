@@ -10,6 +10,21 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <!-- Vue JS -->
     <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style media="screen">
+      .demo{
+        width: 100px;
+        height: 100px;
+        background-color: gray;
+        display: inline-block;
+        margin: 10px;
+      }
+      .red{
+        background-color: red;
+      }
+      .blue{
+        background-color: blue;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
@@ -23,12 +38,27 @@
       <p v-html="finishLink"></p>
       <hr>
       <button type="button" name="button" v-on:click="increase">click</button>
+      <hr>
+      <button type="button" name="button" v-on:click="counter++">click</button>
       <div>
-        {{counter}}
+        {{counter*2}}
       </div>
       <hr>
       <p v-on:mousemove="mouseCoordinate">coordinates: {{x}},{{y}}      <span v-on:mousemove.stop="">dead zone</span></p>
       <input type="text" name="" value="" v-on:keyup.enter.space="alertMe">
+      <hr>
+      <input type="text" v-model="title">
+      <p>{{title}}</p>
+      <hr>
+      <button type="button" name="button" v-on:click="counter++">increase</button>
+      <button type="button" name="button" v-on:click="counterSec++">increase_2</button>
+      <p>counter {{counter}} | {{counterSec}}</p>
+      <p>{{result()}} | {{result_}}</p>
+      <hr>
+      <div class="demo" @click="attachRed=!attachRed" :class="{red:attachRed}"></div>
+      <div class="demo" :class="redBlue"></div>
+      <div class="demo" :class="[color,{red: attachRed}]"></div>
+      <input type="text" name="" value="" v-model="color">
     </div>
     <script type="text/javascript">
       new Vue({
@@ -36,8 +66,11 @@
         data: {
           link: "https://google.com",
           counter: 0,
+          counterSec: 0,
           x: 0,
           y: 0,
+          attachRed: false,
+          color: "red",
           finishLink: "<a href='https://www.baidu.com'>baidu</a>",
           title: "hello world"
           <!-- This is the words to be inserted to the <p>{{ title }}</p>-->
@@ -63,6 +96,36 @@
           },
           alertMe: function(){
             alert("fuck!");
+          },
+          result: function() {
+            if(this.counter > 5){
+              return ">5";
+            }else {
+              return "<=5";
+            }
+          }
+        },
+        computed: {
+          result_: function() {
+            if(this.counter > 5){
+              return ">5";
+            }else {
+              return "<=5";
+            }
+          },
+          redBlue: function(){
+            return {
+              red: this.attachRed,
+              blue: !this.attachRed
+            };
+          }
+        },
+        watch: {
+          counter: function(val) {
+            var self = this;
+            setTimeout(function(){
+              self.counter = 0;
+            },5000);
           }
         }
         });

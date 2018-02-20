@@ -162,3 +162,140 @@ new Vue({
 </script>
 // Only press enter and space will initiate the alert
 ```
+##### writing JS code in the template
+- Can write simple JS code after v-on:eventName="JS code" or in {{}}
+
+```
+<button type="button" name="button" v-on:click="counter++">click</button>
+<div>
+  {{counter*2}}
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    counter: 0
+  }
+</script>
+```
+##### v-mode="data"---two way binding
+- once the value in html is changed , the value in vuejs instance also change, vice versa
+
+```
+<input type="text" v-model="title">
+<p>{{title}}</p>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    title: "0"
+  }
+</script>
+```
+- The "title" value will always equal to input value. Also, the value in the input box will also be set to be the "title" value
+- Same function as v-bind
+##### computed---chaneg with computed properties
+- use like a property inside data object
+- compare the "computed" and "methods"
+
+```
+<button type="button" name="button" v-on:click="counter++">increase</button>
+<button type="button" name="button" v-on:click="counterSec++">increase_2</button>
+<p>counter {{counter}} | {{counterSec}}</p>
+<p>{{result()}} | {{result_}}</p>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    counter: 0,
+    counterSec: 0
+  },
+  methods: {
+    result: function() {
+      if(this.counter > 5){
+        return ">5";
+      }else {
+        return "<=5";
+      }
+    }
+  },
+  computed: {
+    result_: function() {
+      if(this.counter > 5){
+        return ">5";
+      }else {
+        return "<=5";
+      }
+    }
+  }
+</script>
+```
+- Attention: {{result()}} VS {{result_}}
+- They have the same function--changing counter value.
+- result() executes whenever the button is clicked, no matter which one.
+- result_ executes only when increase button is clicked, which is the necessary case.
+- !!TRY TO use computed rather than methods---the former one will limit the unnecessary calculation.
+##### watch---an alternative computed property
+```
+new Vue({
+  el: '#app',
+  data: {
+    counter: 0,
+  },
+  watch: {
+    counter: function(valueOfCounter){
+      var self = this;
+      setTimeout(function(){
+        self.counter = 0;
+      },5000);
+    }
+  }
+});
+```
+- watch the value change of counter in data object
+- once changed, excute the function
+##### shortcut:
+- v-on:click=""-->@click-""
+- v-bind:href=""-->:href=""
+##### Dynamic styling the css
+```
+<div class="demo" @click="attachRed=!attachRed" :class="{red:attachRed}"></div>
+<div class="demo"></div>
+<div class="demo"></div>
+new Vue({
+  el: '#app',
+  data: {
+    attachRed: false;
+  }
+})
+```
+- "{red:attachRed}" means class is red if attachRed is true
+
+```
+<div class="demo" :class="redBlue"></div>
+<div class="demo" :class="[color,{red: attachRed}]"></div>
+<input type="text" name="" value="" v-model="color">
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    color: green,
+    attachRed: false
+  },
+  computed: {
+    redBlue: function(){
+      return {
+        red: this.attachRed,
+        blue: !this.attachRed
+      };
+    }
+  }
+</script>
+```
+- "[color,{red: attachRed}]" means if color is not empty(empty input), the turn red if attachRed is true
+- redBlue is a function which returns a JS object
+- CONCLUSION:
+  1. add or remove class by true/false indicator e.x.: @click="attachRed=!attachRed" :class="{red:attachRed}"
+  2. function returns js object e.x. `<div class="demo" :class="redBlue"></div>`
+  3. directly from data object e.x.`<div class="demo" :class="[color,{red: attachRed}]"></div>`
