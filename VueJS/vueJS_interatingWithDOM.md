@@ -48,7 +48,7 @@ new Vue({
 ##### Binding to attributes
 - The way mentioned above can only be used for binding the text part
 - v-bind:nameOfAttr="dataAttrInVueInstance". Or simply :nameOfAttr=""
--
+
 ```
 <a v-bind:href="link">google</a>
 
@@ -91,7 +91,7 @@ new Vue({
 ```
 ##### v-on: listen to event
 - v-on:eventName="functionName"
-- e.x.
+ e.x.
 ```
 <button type="button" name="button" v-on:click="increase">click</button>
 <script>
@@ -109,7 +109,8 @@ new Vue({
 </script>
 ```
 ##### getting event data
-- ```
+-
+```
 <p v-on:mousemove="mouseCoordinate">coordinates: {{x}},{{y}}</p>
 <script>
 new Vue({
@@ -130,7 +131,7 @@ new Vue({
 ```
 - function(e) passes the event data to the function
 ##### passing both default event data and your own parameter to the event listener function
--
+
 ```
 <p v-on:mousemove="mouseCoordinate(2,$event)">coordinates: {{x}},{{y}}</p>
 <script>
@@ -139,6 +140,7 @@ new Vue({
 ```
 ##### v-on:eventName.modifierProperty=""---Modify an event
 - stop the propagation of mousemove event on the dead zoon
+
 ```
 <p v-on:mousemove="mouseCoordinate">coordinates: {{x}},{{y}}<span v-on:mousemove.stop="">dead zone</span>
 </p>
