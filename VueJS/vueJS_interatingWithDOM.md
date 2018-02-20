@@ -258,7 +258,7 @@ new Vue({
 ##### shortcut:
 - v-on:click=""-->@click-""
 - v-bind:href=""-->:href=""
-##### Dynamic styling the css
+##### Dynamic styling the css with exist class
 ```
 <div class="demo" @click="attachRed=!attachRed" :class="{red:attachRed}"></div>
 <div class="demo"></div>
@@ -298,4 +298,31 @@ new Vue({
 - CONCLUSION:
   1. add or remove class by true/false indicator e.x.: @click="attachRed=!attachRed" :class="{red:attachRed}"
   2. function returns js object e.x. `<div class="demo" :class="redBlue"></div>`
-  3. directly from data object e.x.`<div class="demo" :class="[color,{red: attachRed}]"></div>`
+  3. directly use name from data object e.x.`<div class="demo" :class="[color,{red: attachRed}]"></div>`
+##### :style="{}"--Dynamic styling the css without class
+```
+<div class="demo" :style="{backgroundColor:color,width:width}"></div>
+<div class="demo" :style="myStyle"></div>
+<div class="demo"></div>
+<input type="text" name="" value="" v-model="color">
+<input type="text" name="" value="" v-model="width">
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    color: "red",
+    width: "100px",
+  },
+  computed: {
+    myStyle: function(){
+      return {
+        backgroundColor: this.color,
+        width: this.width
+      };
+    }
+  }
+</script>
+```
+- DO NOT use "-" in :style="{}". backgroundColor not background-color
+- can use :style="computedFun"
+- can use :style="[myStyle,{marginLeft:width}]"

@@ -59,6 +59,12 @@
       <div class="demo" :class="redBlue"></div>
       <div class="demo" :class="[color,{red: attachRed}]"></div>
       <input type="text" name="" value="" v-model="color">
+      <hr>
+      <div class="demo" :style="{backgroundColor:color,width:width}"></div>
+      <div class="demo" :style="myStyle"></div>
+      <div class="demo" :style="[myStyle,{marginLeft:width}]"></div>
+      <input type="text" name="" value="" v-model="color">
+      <input type="text" name="" value="" v-model="width">
     </div>
     <script type="text/javascript">
       new Vue({
@@ -71,6 +77,7 @@
           y: 0,
           attachRed: false,
           color: "red",
+          width: "100px",
           finishLink: "<a href='https://www.baidu.com'>baidu</a>",
           title: "hello world"
           <!-- This is the words to be inserted to the <p>{{ title }}</p>-->
@@ -117,6 +124,12 @@
             return {
               red: this.attachRed,
               blue: !this.attachRed
+            };
+          },
+          myStyle: function(){
+            return {
+              backgroundColor: this.color,
+              width: this.width
             };
           }
         },
