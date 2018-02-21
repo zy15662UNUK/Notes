@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Conditionals and rendering list</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- Vue JS -->
+    <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style media="screen">
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <template id="" v-if="showAll">
+        <p v-if="show">you can see me</p>
+        <p>Do you see me</p>
+      </template>
+      <p v-if="show">you can see me</p>
+      <p v-else>Do you see me</p>
+      <button type="button" name="button" @click="show=!show">hind or show</button>
+      <button type="button" name="button" @click="showAll=!showAll">hind or show all</button>
+      <hr>
+      <ul>
+        <li v-for="(elem,i) in indredients">{{elem}} ({{i}})</li>
+      </ul>
+      <hr>
+      <template id="" v-for="(elem,i) in indredients">
+        <h1>{{elem}}</h1>
+        <p>{{i}}</p>
+      </template>
+      <hr>
+      <ul>
+        <li v-for="elem in people"><p v-for="(val,key,index) in elem">{{key}}: {{val}} ({{index}})</p></li>
+      </ul>
+      <hr>
+      <template id="" v-for="elem in indredients" :key="elem">
+        <h1>{{elem}}</h1>
+      </template>
+      <button type="button" name="button" @click="indredients.push('a')">click</button>
+    </div>
+    <script type="text/javascript">
+      new Vue({
+        el: '#app',
+        data: {
+          show: true,
+          showAll: true,
+          indredients: ["meat","fruit","cookies"],
+          people: [{name: "James",age:"21",color:"red"},{name: "Alan",age:"25",color:"blue"}]
+        },
+      });
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

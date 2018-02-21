@@ -55,7 +55,7 @@
       <p>counter {{counter}} | {{counterSec}}</p>
       <p>{{result()}} | {{result_}}</p>
       <hr>
-      <div class="demo" @click="attachRed=!attachRed" :class="{red:attachRed}"></div>
+      <div class="demo" @click="attachRed=!attachRed" :class="{red:attachRed,blue:!attachRed}"></div>
       <div class="demo" :class="redBlue"></div>
       <div class="demo" :class="[color,{red: attachRed}]"></div>
       <input type="text" name="" value="" v-model="color">

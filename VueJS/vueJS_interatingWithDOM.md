@@ -298,7 +298,7 @@ new Vue({
 - CONCLUSION:
   1. add or remove class by true/false indicator e.x.: @click="attachRed=!attachRed" :class="{red:attachRed}"
   2. function returns js object e.x. `<div class="demo" :class="redBlue"></div>`
-  3. directly use name from data object e.x.`<div class="demo" :class="[color,{red: attachRed}]"></div>`
+  3. directly use name from data object e.x.`<div class="demo" :class="[color,{red: attachRed}]"></div>` . Also,We can pass an array to v-bind:classto apply a list of classes
 ##### :style="{}"--Dynamic styling the css without class
 ```
 <div class="demo" :style="{backgroundColor:color,width:width}"></div>
