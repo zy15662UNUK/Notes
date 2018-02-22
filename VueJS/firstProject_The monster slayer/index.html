@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monster Slayer</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">YOU</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="playerBarStyle">
+
+                </div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">MONSTER</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="MonsterBarStyle">
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="row controls" v-if="startNewGame">
+        <div class="small-12 columns">
+            <button id="start-game" @click="startNewGame=!startNewGame;controlPanel=!controlPanel">START NEW GAME</button>
+        </div>
+    </section>
+    <section class="row controls" v-if="controlPanel">
+        <div class="small-12 columns">
+            <button id="attack" @click="attack();">ATTACK</button>
+            <button id="special-attack" @click="specialAttack();">SPECIAL ATTACK</button>
+            <button id="heal" @click="heal();">HEAL</button>
+            <button id="give-up" @click="giveUp();">GIVE UP</button>
+        </div>
+    </section>
+    <section class="row log">
+        <div class="small-12 columns">
+            <ul>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+  new Vue({
+    el: "#app",
+    data: {
+      startNewGame: true,
+      controlPanel: false,
+      playerBarStyle: {
+        width: "100%"
+      },
+      MonsterBarStyle: {
+        width: "100%"
+      }
+    },
+    methods: {
+      giveUp: function(){
+        this.startNewGame=!this.startNewGame;
+        this.controlPanel=!this.controlPanel;
+        this.playerBarStyle.width="100%";
+        this.MonsterBarStyle.width="100%";
+        console.log(this.playerBarStyle);
+      },
+      attack: function(){
+        // handle the live bar
+        var playerBar = this.playerBarStyle.width.slice(0, this.playerBarStyle.width.length-1);
+        playerBar = parseFloat(playerBar)-Math.random()*8;
+        this.playerBarStyle.width=playerBar+"%";
+        var monsterBar = this.MonsterBarStyle.width.slice(0, this.MonsterBarStyle.width.length-1);
+        monsterBar = parseFloat(monsterBar)-Math.random()*8;
+        this.MonsterBarStyle.width=monsterBar+"%";
+      },
+      specialAttack: function(){
+        // handle the live bar
+        var playerBar = this.playerBarStyle.width.slice(0, this.playerBarStyle.width.length-1);
+        playerBar = parseFloat(playerBar)-Math.random()*20-8;
+        this.playerBarStyle.width=playerBar+"%";
+        var monsterBar = this.MonsterBarStyle.width.slice(0, this.MonsterBarStyle.width.length-1);
+        monsterBar = parseFloat(monsterBar)-Math.random()*20-8;
+        this.MonsterBarStyle.width=monsterBar+"%";
+      },
+      heal: function(){
+        var playerBar = this.playerBarStyle.width.slice(0, this.playerBarStyle.width.length-1);
+        var heal = Math.random()*10+5.
+        playerBar = parseFloat(playerBar)+heal;
+        if(parseFloat(playerBar)<100){
+          this.playerBarStyle.width=playerBar+"%";
+        }else {
+          this.playerBarStyle.width="100%"
+        }
+        // attacked when healing
+          self = this;
+          setTimeout(function(){
+            var t = self.playerBarStyle.width.slice(0, self.playerBarStyle.width.length-1);
+            t -= Math.random()*2;
+            self.playerBarStyle.width = t+"%";
+          },500);
+
+      },
+
+    }
+  });
+</script>
+</body>
+</html>

@@ -197,7 +197,7 @@ new Vue({
 - Same function as v-bind
 ##### computed---chaneg with computed properties
 - use like a property inside data object
-- compare the "computed" and "methods"
+- compare the "computed" and "methods": https://vuejs.org/v2/guide/computed.html
 
 ```
 <button type="button" name="button" v-on:click="counter++">increase</button>
@@ -234,7 +234,7 @@ new Vue({
 - Attention: {{result()}} VS {{result_}}
 - They have the same function--changing counter value.
 - result() executes whenever the button is clicked, no matter which one.
-- result_ executes only when increase button is clicked, which is the necessary case.
+- **result_ executes only when increase button is clicked, which is the necessary case.However, the difference is that computed properties are cached based on their dependencies. A computed property will only re-evaluate when some of its dependencies have changed. This means as long as "counter" has not changed, multiple access to the reversedMessage computed property will immediately return the previously computed result without having to run the function again.**
 - !!TRY TO use computed rather than methods---the former one will limit the unnecessary calculation.
 ##### watch---an alternative computed property
 ```

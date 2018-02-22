@@ -132,5 +132,5 @@ new Vue({
   }
 });
 </script>
-
 ```
+- v-if: judge if the value of elem in an object is an array. If so,
