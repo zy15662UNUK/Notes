@@ -41,9 +41,9 @@
     </section>
     <section class="row log">
         <div class="small-12 columns">
-            <ul>
-                <li>
-
+            <ul v-for="elem in fightRecord">
+                <li :class="elem.class">
+                  {{elem.value}}
                 </li>
             </ul>
         </div>
@@ -60,53 +60,104 @@
       },
       MonsterBarStyle: {
         width: "100%"
-      }
+      },
+      fightRecord: []
     },
     methods: {
       giveUp: function(){
+        this.MonsterBarStyle.width="100%";
+        this.playerBarStyle.width="100%";
         this.startNewGame=!this.startNewGame;
         this.controlPanel=!this.controlPanel;
-        this.playerBarStyle.width="100%";
-        this.MonsterBarStyle.width="100%";
-        console.log(this.playerBarStyle);
+        this.fightRecord=[];
+      },
+      addRecord: function(bool, val){
+        if(bool === true){
+          this.fightRecord.unshift({value:"PLAYER HITS MONSTER FOR "+val,class:"player-turn"});
+        }else if (bool===false){
+          this.fightRecord.unshift({value:"MONSTER HITS PLAYER FOR "+val,class:"monster-turn"});
+        }else {
+          this.fightRecord.unshift({value:"PLAYER HEALS HIMSELF FOR "+val,class:"player-turn"});
+        }
       },
       attack: function(){
-        // handle the live bar
+        // get current live value
         var playerBar = this.playerBarStyle.width.slice(0, this.playerBarStyle.width.length-1);
-        playerBar = parseFloat(playerBar)-Math.random()*8;
-        this.playerBarStyle.width=playerBar+"%";
+        // player life reduction
+        var playerVal = Math.ceil(Math.random()*8);
+        playerBar = parseFloat(playerBar)-playerVal;
+        // update the reduction list
+        this.addRecord(true,playerVal);
+        // update the live bar
+        if(playerBar>0){
+          this.playerBarStyle.width=playerBar+"%";
+        }else {
+          this.playerBarStyle.width="0";
+          window.alert("You lose!!");
+          this.giveUp();
+          return;
+        }
         var monsterBar = this.MonsterBarStyle.width.slice(0, this.MonsterBarStyle.width.length-1);
-        monsterBar = parseFloat(monsterBar)-Math.random()*8;
-        this.MonsterBarStyle.width=monsterBar+"%";
+        // monster life reduction
+        var monsterVal = Math.ceil(Math.random()*8);
+        monsterBar = parseFloat(monsterBar)-monsterVal;
+        this.addRecord(false,monsterVal);
+        if(monsterBar>0){
+          this.MonsterBarStyle.width=monsterBar+"%";
+        }else {
+          this.MonsterBarStyle.width="0";
+          window.alert("You win!!");
+          this.giveUp();
+          return;
+        }
       },
       specialAttack: function(){
         // handle the live bar
         var playerBar = this.playerBarStyle.width.slice(0, this.playerBarStyle.width.length-1);
-        playerBar = parseFloat(playerBar)-Math.random()*20-8;
-        this.playerBarStyle.width=playerBar+"%";
+        var playerVal = Math.ceil(Math.random()*20+8);
+        playerBar = parseFloat(playerBar)-playerVal;
+        this.addRecord(true,playerVal);
+        if(playerBar>0){
+          this.playerBarStyle.width=playerBar+"%";
+        }else {
+          this.playerBarStyle.width = "0%";
+          window.alert("You lose!!");
+          this.giveUp();
+          return;
+        }
         var monsterBar = this.MonsterBarStyle.width.slice(0, this.MonsterBarStyle.width.length-1);
-        monsterBar = parseFloat(monsterBar)-Math.random()*20-8;
-        this.MonsterBarStyle.width=monsterBar+"%";
+        var monsterVal=Math.ceil(Math.random()*20+10)
+        monsterBar = parseFloat(monsterBar)-monsterVal;
+        this.addRecord(false,monsterVal);
+        if(monsterBar>0){
+          this.MonsterBarStyle.width=monsterBar+"%";
+        }else {
+          this.MonsterBarStyle.width="0";
+          window.alert("You win!!");
+          this.giveUp();
+          return;
+        }
       },
       heal: function(){
         var playerBar = this.playerBarStyle.width.slice(0, this.playerBarStyle.width.length-1);
-        var heal = Math.random()*10+5.
+        var heal = Math.ceil(Math.random()*10+5);
         playerBar = parseFloat(playerBar)+heal;
-        if(parseFloat(playerBar)<100){
+        if(playerBar<100){
           this.playerBarStyle.width=playerBar+"%";
+          this.addRecord("heal",heal);
+          // attacked when healing
+            self = this;
+            setTimeout(function(){
+              var t = self.playerBarStyle.width.slice(0, self.playerBarStyle.width.length-1);
+              var tVal=Math.ceil(Math.random()*2);
+              t -= tVal;
+              self.playerBarStyle.width = t+"%";
+              self.addRecord(false,tVal);
+            },500);
         }else {
           this.playerBarStyle.width="100%"
         }
-        // attacked when healing
-          self = this;
-          setTimeout(function(){
-            var t = self.playerBarStyle.width.slice(0, self.playerBarStyle.width.length-1);
-            t -= Math.random()*2;
-            self.playerBarStyle.width = t+"%";
-          },500);
-
       },
-
     }
   });
 </script>
