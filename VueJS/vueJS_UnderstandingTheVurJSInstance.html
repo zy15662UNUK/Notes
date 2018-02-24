@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Understanding the vueJS instance</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- Vue JS -->
+    <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style media="screen">
+    </style>
+  </head>
+  <body>
+    <div id="app1">
+      <h1 ref="heading">{{ title }}</h1>
+      <h1 ref="heading">{{ title }}</h1>
+      <button v-on:click="show" ref="myButton">Show Paragraph</button>
+      <p v-if="showParagraph">This is not always visible</p>
+    </div>
+    <div id="app2">
+      <h1 ref="heading">{{ title }}</h1>
+      <button type="button" name="button" @click="onChange">change vm1 from vm2</button>
+      <hello></hello>
+      <hello></hello>
+    </div>
+    <div id="app3">
+    </div>
+    <div id="app">
+      <h1>{{title}}</h1>
+      <button type="button" name="button" @click="title='changed'">updateTitle</button>
+      <button type="button" name="button" @click="destory">destory</button>
+    </div>
+    <script type="text/javascript">
+      Vue.component("hello", {
+        template: "<h3>hello!</h3>"
+      });
+      new Vue({
+        el: "#app",
+        data: {
+          title: "The vue js instance"
+        },
+        beforeCreate: function(){
+          console.log("beforeCreate()");
+        },
+        created: function(){
+          console.log("created()");
+        },
+        beforeMount: function(){
+          console.log("beforeMount()");
+        },
+        mounted: function(){
+          console.log("mounted()");
+        },
+        beforeDestroy: function(){
+          console.log("beforeDestroy()");
+        },
+        destroyed: function(){
+          console.log("destroyed()");
+        },
+        methods: {
+          destory: function(){
+            this.$destroy();
+          }
+         }
+      });
+      var vm1=new Vue({
+        el: '#app1',
+        data: {
+          title: 'The VueJS Instance',
+          showParagraph: false
+        },
+        methods: {
+          show: function() {
+            this.showParagraph = true;
+            this.updateTitle('The VueJS Instance (Updated)');
+            this.$refs.myButton.innerText = "test";
+          },
+          updateTitle: function(title) {
+            this.title = title;
+          }
+        },
+        computed: {
+          lowercaseTitle: function() {
+            return this.title.toLowerCase();
+          }
+        },
+        watch: {
+          title: function(value) {
+            alert('Title changed, new value: ' + value);
+          }
+        }
+      });
+      var vm2=new Vue({
+        el: '#app2',
+        data: {
+          title: 'The VueJS Instance',
+        },
+        methods: {
+          onChange: function(){
+            vm1.title = "changed"
+          }
+        }
+      });
+      setTimeout(function(){
+        vm1.title="1changed by timer";
+        vm2.title="2changed by timer"
+      },3000);
+      var vm3 = new Vue({
+        template: "<h3>hello!</h3>"
+      });
+      vm3.$mount("#app3");
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
