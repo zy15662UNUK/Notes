@@ -221,3 +221,11 @@ export default {
 ##### Folder structure
 - component folder in src
 - feature folder in component
+
+##### Naming of component tags
+- with or without "" doesn't matter
+
+##### style
+- By default, any style set up for one template will be global style
+- `<style scoped></style>` now this style becomes local style, will not affect with style in other template
+http://vuejs.org/guide/components.html
