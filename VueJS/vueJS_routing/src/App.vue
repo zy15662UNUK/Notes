@@ -4,8 +4,12 @@
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                 <h1>Routing</h1>
                 <hr>
-                <appHeader></appHeader>
+                <!-- <appHeader></appHeader> -->
+                <router-view name="header-top"></router-view>
                 <router-view ></router-view>
+                <!-- This will be the default route to be shown -->
+                <router-view name="header-bottom"></router-view>
+
             </div>
         </div>
     </div>
