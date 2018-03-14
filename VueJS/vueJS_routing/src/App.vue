@@ -6,7 +6,9 @@
                 <hr>
                 <!-- <appHeader></appHeader> -->
                 <router-view name="header-top"></router-view>
-                <router-view ></router-view>
+                <transition name="slide" mode="out-in">
+                  <router-view ></router-view>
+                </transition>
                 <!-- This will be the default route to be shown -->
                 <router-view name="header-bottom"></router-view>
 
@@ -25,4 +27,35 @@
 </script>
 
 <style>
+  .slide-leave{
+    opacity: 1;
+  }
+  .slide-leave-acive{
+    transition: opacity 1s ease;
+    opacity: 0;
+    animation: slide-out 1s ease-out forwards;
+  }
+
+  .slide-enter{
+
+  }
+  .slide-enter-active{
+    animation: slide-in 1s ease-out forwards;
+  }
+  @keyframes slide-out {
+    from{
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-30px);
+    }
+  }
+  @keyframes slide-in {
+    from{
+      transform: translateY(-30px);
+    }
+    to{
+      transform: translateY(0);
+    }
+  }
 </style>

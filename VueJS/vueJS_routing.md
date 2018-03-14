@@ -363,3 +363,138 @@ export const routes = [
 },name:"Home",}
 ```
 - For the Home page route, Home component is placed in the default <router-view>, Header component is placed in the <router-view> named "header-top"
+
+##### Redirecting
+- what if user enter anything that is not covered in the app in the URL
+- Adding an new route in const routes in route.js
+
+```
+{
+  path: "*", redirect: {name: "Home"}
+}
+```
+- * represents all the input of URL that is not included in the App
+
+
+##### Animating Route Transitions
+
+```
+<transition name="slide" mode="out-in">
+  <router-view ></router-view>
+</transition>
+```
+- Include <router-view> in <transition> tag
+
+##### Protecting Routes with Guards
+- want a control if a user is allowed to enter a certain route or if he is allowed to leave it
+
+##### Using the "beforeEnter" Guard
+- 3 different places where we can set up is a user allowed to enter a route check, 1 place we may set up is  a user allowed to leave the check
+- 1st place to set up enter a route check---> main.js, gets executed on each routing
+
+```
+router.beforeEach(function(to,from,next){
+  console.log("global beforeEach")
+  next();//allow routing to continue, next(false) abort the routing or next({path:}) for redirection
+});
+// execute before each routing action
+new Vue({
+  el: '#app',
+  router,
+  // The new VueRouter instance
+  render: h => h(App)
+})
+// Only one instance for single page application
+```
+- 2nd place to set up enter a route check-->route.js: protect certain route
+
+```
+{path:":id",component:UserDetail,name:"UserDetail",
+beforeEnter: function(to,from,next){
+  console.log("inside route setup");
+  next();
+}}
+```
+- only protct the UserDetail
+- 3rd to set up enter a route check-->component navigate to
+
+```
+<template>
+  <div class="">
+    <h3>Some User Details</h3>
+    <hr>
+    <p>User loaded ID: {{$route.params.id}}</p>
+    <!-- Extract ids in the URL -->
+    <router-link :to="'/user/'+$route.params.id+'/edit'" class="btn btn-primary" tag="button">UserEdit</router-link>
+    <router-link :to="{ name: 'UserEdit', params: {id: $route.params.id},query: {locale:'en',q:100}}" class="btn btn-primary">UserEdit2</router-link>
+  </div>
+</template>
+<script>
+  beforeRouteEnter(to,from,next){
+    next();
+  }
+</script>
+```
+
+##### Using the "beforeLeave" Guard
+- set up in the component you are going to leave
+
+```
+<button @click="confirmed = true" class="btn btn-primary" type="button" name="button">Confirm</button>
+
+<script>
+export default{
+  data: function(){
+    return {
+      confirmed: false
+    };
+  },
+  beforeRouteLeave: function(to,from,next){
+    if(this.confirmed){
+      // if click confirm, allow to leave
+      next();
+    }else{
+      if(confirm("Are you sure you want to leave")){
+        // ask users if they want to leave
+        // if yes, then keep going
+        next();
+      }else{
+        // if no, stay on current page
+        next(false);
+      }
+    }
+  }
+}
+</script>
+```
+
+##### Loading Routes Lazily
+- only load the home page components at the beginning, then load the others once needed
+- in routes.js, only inport the homepage component
+
+```
+import Home from "./components/Home.vue";
+import Header from "./components/Header.vue";
+// import components
+const User = function(resolve){
+  require.ensure(["./components/user/User.vue"],function(){
+    resolve(require("./components/user/User.vue"));
+  });
+};
+const UserEdit = function(resolve){
+  require.ensure(["./components/user/UserEdit.vue"],function(){
+    resolve(require("./components/user/UserEdit.vue"));
+  });
+};
+const UserStart = function(resolve){
+  require.ensure(["./components/user/UserDetail.vue"],function(){
+    resolve(require("./components/user/UserDetail.vue"));
+  });
+};
+const UserDetail = function(resolve){
+  require.ensure(["./components/user/UserStart.vue"],function(){
+    resolve(require("./components/user/UserStart.vue"));
+  });
+};
+```
+- User,UserEdit,UserStart,UserDetail are loaded async

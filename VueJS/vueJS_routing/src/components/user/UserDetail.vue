@@ -8,3 +8,10 @@
     <router-link :to="{ name: 'UserEdit', params: {id: $route.params.id},query: {locale:'en',q:100}}" class="btn btn-primary">UserEdit2</router-link>
   </div>
 </template>
+<script>
+export default{
+  beforeRouteEnter: function(to,from,next){
+    next();
+  },
+}
+</script>

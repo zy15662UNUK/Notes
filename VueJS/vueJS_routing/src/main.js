@@ -7,6 +7,11 @@ const router = new VueRouter({
   routes
   // The imported routes object
 });
+router.beforeEach(function(to,from,next){
+  console.log("global beforeEach")
+  next();//allow routing to continue, next(false) abort the routing or next({path:}) for redirection
+});
+// execute before each routing action
 new Vue({
   el: '#app',
   router,
